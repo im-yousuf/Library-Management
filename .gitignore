@@ -5,3 +5,11 @@ data/
 *.iml
 .vscode/
 .DS_Store
+build_tmp/
+
+# Large binary artifacts - use GitHub Releases for distribution
+*.zip
+*.bak
+Smart Library Management System/app/*.jar
+Smart Library Management System/app/*.bak
+Smart Library Management System/runtime/

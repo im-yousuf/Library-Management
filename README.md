@@ -1,71 +1,141 @@
 # Smart Library Management System (SLMS)
 
-Offline JavaFX + SQLite desktop application for managing books, members, and borrowing records in schools/colleges/institutes. No internet connection or server required.
+A fully **offline** JavaFX + SQLite desktop application for managing books, members, and borrowing records in schools, colleges, and institutes.  
+No internet connection, no server, no installation wizard required — just unzip and run.
 
-## Features
+---
 
-- **Authentication:** Role-based access (ADMIN vs LIBRARIAN) with BCrypt password hashing.
-- **Book Management:** Add, edit, delete, and search books. Track available and total copies.
-- **Member Management:** Manage member profiles and borrowing privileges.
-- **Issue/Return System:** Track active loans, calculate due dates automatically, and handle returns.
-- **Fine Management:** Automatically calculate late fees based on configurable rules (grace days, fine per day). Settle or waive fines with reasoning.
-- **Library Layout:** Organize books hierarchically by Rack and Shelf for easy physical location tracking.
-- **Global Search:** Instantly search across books, members, and shelves from any screen.
-- **Reporting:** Generate comprehensive reports (Inventory, Issued, Returns, Overdue, Fines, Lost Books) and export to Excel (.xlsx) or PDF.
-- **Settings & Backup:** Configure library rules and safely backup or restore the SQLite database offline.
+## 📦 Download & Quick Start (Recommended)
 
-## Prerequisites
+> **No Java installation needed.** The portable bundle ships with a bundled JRE.
 
-- **JDK 17+** (JavaFX 21 requires Java 17 or newer)
-- **Maven 3.8+**
-- *(For Windows MSI installer generation only)* **WiX Toolset v3.11+**
+1. **Download** `SLMS-Portable-Windows.zip` from the [Releases](../../releases) page (or from the root of this repository).
+2. **Extract** the ZIP to any folder (e.g., `C:\SLMS\`).
+3. **Run** the application using one of:
+   - Double-click **`Smart Library Management System.exe`** inside the extracted folder, **or**
+   - Double-click **`run.bat`** (opens a console window alongside the app).
+4. **Login** with the default administrator credentials:
+   | Field    | Value     |
+   |----------|-----------|
+   | Username | `admin`   |
+   | Password | `admin123`|
 
-Check your setup:
+> ⚠️ Change the default password immediately via **Settings → User Management** before going into production.
+
+On first launch, a `data/` folder is automatically created next to the application to store the SQLite database (`slms.db`). All your library data lives in that single file — back it up anytime via **Settings → Backup & Restore**.
+
+---
+
+## ☕ Running the Fat JAR (Requires Java 17+)
+
+If you prefer to run the raw JAR file directly (e.g., on a machine that already has Java 17+ installed):
+
+### Prerequisites
+
+| Tool | Version |
+|------|---------|
+| JDK  | 17 or newer |
+
+Verify your Java installation:
+```bash
+java -version
+```
+
+### Steps
+
+1. **Download** `SmartLibraryManagementSystem-1.0.0.jar` from the [Releases](../../releases) page.
+2. **Open a terminal** (Command Prompt or PowerShell) in the folder where you saved the JAR.
+3. **Run** the JAR:
+   ```bash
+   java -jar SmartLibraryManagementSystem-1.0.0.jar
+   ```
+4. The application will launch. A `data/` folder with `slms.db` is created in the **same directory** as the JAR on first run.
+5. **Login** with the default credentials above.
+
+> **Note:** The fat JAR bundles all dependencies (including JavaFX native libraries). You do **not** need to add `--module-path` or any JavaFX flags.
+
+---
+
+## ✨ Features
+
+| Category | What You Can Do |
+|----------|-----------------|
+| **Authentication** | Role-based access (ADMIN / LIBRARIAN) with BCrypt password hashing |
+| **Book Management** | Add, edit, delete, search books; track available vs. total copies |
+| **Member Management** | Manage member profiles and borrowing privileges |
+| **Issue / Return** | Track active loans, auto-calculate due dates, handle returns |
+| **Fine Management** | Auto-calculate late fees (configurable grace days & daily rate); settle or waive fines with reasoning |
+| **Library Layout** | Hierarchical Rack → Shelf organization for easy physical location tracking |
+| **Global Search** | Instant search across books, members, and shelves from any screen |
+| **Bulk Import / Export** | Import books from Excel (.xlsx); export reports to Excel or PDF |
+| **Reports** | Inventory, Issued, Returns, Overdue, Fines, Lost Books |
+| **Settings & Backup** | Configure library rules; safely backup/restore the SQLite database offline |
+
+---
+
+## 🛠️ Building from Source
+
+### Prerequisites
+
+| Tool | Version |
+|------|---------|
+| JDK  | 17 or newer |
+| Maven | 3.8 or newer |
+
 ```bash
 java -version
 mvn -version
 ```
 
-## Running the Application Locally
+### Run in Development Mode
 
 ```bash
 cd LibraryManagementSystem
 mvn clean javafx:run
 ```
 
-The first time the application runs, it will:
-1. Create a `data/` folder next to the project to house `slms.db`.
-2. Initialize all SQLite tables.
-3. Seed a default admin account.
+### Build the Fat JAR
 
-**Default Administrator Login:**
-- Username: `admin`
-- Password: `admin123`
-
-*Make sure to change this password via Settings / User Management immediately in production.*
-
-## Running Unit Tests
-
-To run the full suite of unit tests on the service layer:
-```bash
-mvn test
-```
-Tests run using an in-memory SQLite database (`jdbc:sqlite::memory:`) and do not affect your local `data/slms.db`.
-
-## Build & Packaging (Producing Installers)
-
-### 1. Build the Runnable Fat JAR
-First, package the application into a single runnable fat JAR containing all dependencies:
 ```bash
 mvn clean package
 ```
-This produces `target/SmartLibraryManagementSystem-1.0.0.jar`. You can run this JAR directly via `java -jar target/SmartLibraryManagementSystem-1.0.0.jar`.
 
-### 2. Create Native Installers with `jpackage`
+Output: `target/SmartLibraryManagementSystem-1.0.0.jar`
 
-`jpackage` (included with JDK 14+) can wrap the JAR and bundle a private JRE so end-users do not need Java installed.
+You can run it immediately with:
+```bash
+java -jar target/SmartLibraryManagementSystem-1.0.0.jar
+```
 
-**Generate a Windows MSI Installer (Requires WiX Toolset):**
+### Run Unit Tests
+
+Tests run against an in-memory SQLite database and never touch your live `data/slms.db`.
+
+```bash
+mvn test
+```
+
+### Re-package a New JAR into the Portable Bundle
+
+After making code changes, use the provided no-Maven build script to recompile and hot-swap the JAR inside the portable bundle:
+
+```bat
+build.bat
+```
+
+This script:
+1. Compiles all Java sources using your system JDK (Java 17+).
+2. Copies fresh FXML, CSS, and icon resources.
+3. Creates a backup of the existing JAR (`*.jar.bak`).
+4. Repacks the updated classes into `Smart Library Management System\app\SmartLibraryManagementSystem-1.0.0.jar`.
+
+After a successful build, run the app via `run.bat` or `Smart Library Management System.exe`.
+
+### Create a Native Windows Installer (Optional)
+
+Requires **WiX Toolset v3.11+** and JDK 14+.
+
+**MSI Installer:**
 ```powershell
 jpackage --type msi `
   --name "Smart Library Management System" `
@@ -76,22 +146,8 @@ jpackage --type msi `
   --win-menu `
   --app-version "1.0.0"
 ```
-This produces an MSI installer that puts the application in Program Files and adds Start Menu shortcuts.
 
-**Generate a Windows EXE Installer (Requires WiX Toolset):**
-```powershell
-jpackage --type exe `
-  --name "Smart Library Management System" `
-  --input target/ `
-  --main-jar SmartLibraryManagementSystem-1.0.0.jar `
-  --main-class com.slms.Main `
-  --win-shortcut `
-  --win-menu `
-  --app-version "1.0.0"
-```
-
-**Generate a Portable Windows Application (No WiX required):**
-If you want an application directory that can be zipped and run directly without an installation wizard:
+**Portable App Image (no WiX required):**
 ```powershell
 jpackage --type app-image `
   --name "Smart Library Management System" `
@@ -99,28 +155,52 @@ jpackage --type app-image `
   --main-jar SmartLibraryManagementSystem-1.0.0.jar `
   --main-class com.slms.Main
 ```
-This produces a folder containing the `.exe` and bundled runtime. Zip it up and distribute.
 
-*(Note: Add `--icon src/main/resources/icons/app_icon.ico` to any of the commands above to bundle a custom desktop icon).*
+> Add `--icon src/main/resources/icons/app_icon.ico` to any command above to bundle a custom icon.
 
-## Project Architecture
+---
+
+## 🏗️ Project Architecture
 
 ```
 LibraryManagementSystem/
 ├── pom.xml
+├── build.bat                  # No-Maven hot-rebuild script
 ├── data/                      # Created at runtime (SQLite database)
+├── Smart Library Management System/   # Portable bundle (run directly)
+│   ├── Smart Library Management System.exe
+│   ├── run.bat
+│   ├── app/
+│   │   └── SmartLibraryManagementSystem-1.0.0.jar
+│   └── runtime/               # Bundled JRE
 └── src/
     ├── main/java/com/slms/
     │   ├── Main.java              # JavaFX Entry Point
-    │   ├── controllers/           # JavaFX UI Controllers (Fines, Reports, etc.)
-    │   ├── models/                # Data structures (Book, Member, Fine, etc.)
-    │   ├── database/              # DatabaseManager & Schema Initialization
-    │   ├── services/              # Business Logic (TransactionService, etc.)
-    │   ├── utils/                 # SceneManager, Session State, Utilities
+    │   ├── controllers/           # JavaFX UI Controllers
+    │   ├── models/                # Data models (Book, Member, Fine, …)
+    │   ├── database/              # DatabaseManager & schema initialization
+    │   ├── services/              # Business logic (TransactionService, …)
+    │   ├── utils/                 # SceneManager, session state, helpers
     │   └── reports/               # Report generation queries
     ├── main/resources/
     │   ├── views/                 # FXML layouts for all screens
     │   ├── css/                   # Global styles & dark mode themes
     │   └── icons/                 # Application icons and branding
-    └── test/java/com/slms/        # JUnit 5 Service Tests
+    └── test/java/com/slms/        # JUnit 5 service tests
 ```
+
+---
+
+## 🔑 Default Credentials
+
+| Role      | Username | Password   |
+|-----------|----------|------------|
+| Admin     | `admin`  | `admin123` |
+
+*Change these immediately after first login.*
+
+---
+
+## 📄 License
+
+This project is released for educational and institutional use.
