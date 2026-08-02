@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.slms.controllers.SettingsController"
+            styleClass="app-root">
+
+    <left>
+        <fx:include source="sidebar.fxml"/>
+    </left>
+
+    <top>
+        <fx:include source="topbar.fxml"/>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox spacing="25" style="-fx-padding: 25;">
+
+                <!-- ==================== LIBRARY CONFIGURATION ==================== -->
+                <VBox spacing="12" styleClass="stat-card" style="-fx-padding: 20;">
+                    <Label text="📋 Library Configuration" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+                    <Separator/>
+
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Library Name"/>
+                            <TextField fx:id="libraryNameField" promptText="Enter library name" prefWidth="300"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Loan Period (days)"/>
+                            <TextField fx:id="loanPeriodField" promptText="14" prefWidth="120"/>
+                        </VBox>
+                    </HBox>
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <VBox spacing="5">
+                            <Label text="Fine Per Day (₹)"/>
+                            <TextField fx:id="finePerDayField" promptText="5" prefWidth="120"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Grace Days"/>
+                            <TextField fx:id="graceDaysField" promptText="2" prefWidth="120"/>
+                        </VBox>
+                    </HBox>
+                    <Button text="Save Settings" styleClass="primary-button" onAction="#saveSettings"/>
+                </VBox>
+
+                <!-- ==================== DATABASE BACKUP ==================== -->
+                <VBox spacing="12" styleClass="stat-card" style="-fx-padding: 20;">
+                    <Label text="💾 Database Backup &amp; Restore" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+                    <Separator/>
+                    <Label text="Create a backup to prevent data loss, or restore from a previous backup." wrapText="true"/>
+                    <HBox spacing="15">
+                        <Button text="Create Backup" styleClass="primary-button" onAction="#createBackup"/>
+                        <Button text="Restore Backup (Admin)" style="-fx-background-color: #f44336; -fx-text-fill: white;" onAction="#restoreBackup"/>
+                    </HBox>
+                </VBox>
+
+                <!-- ==================== USER MANAGEMENT ==================== -->
+                <VBox spacing="12" styleClass="stat-card" style="-fx-padding: 20;">
+                    <Label text="👤 User Management (Admin Only)" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+                    <Separator/>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="usernameField" promptText="Username" prefWidth="140"/>
+                        <PasswordField fx:id="passwordField" promptText="Password" prefWidth="140"/>
+                        <TextField fx:id="fullNameField" promptText="Full Name" prefWidth="180"/>
+                        <ComboBox fx:id="roleCombo" prefWidth="120"/>
+                        <Button fx:id="addUserBtn" text="Add User" styleClass="primary-button" onAction="#addUser"/>
+                    </HBox>
+
+                    <TableView fx:id="usersTable" prefHeight="200">
+                        <placeholder>
+                            <Label text="No users found." styleClass="empty-state-label"/>
+                        </placeholder>
+                        <columns>
+                            <TableColumn fx:id="usernameCol" text="Username" prefWidth="150"/>
+                            <TableColumn fx:id="nameCol" text="Full Name" prefWidth="200"/>
+                            <TableColumn fx:id="roleCol" text="Role" prefWidth="100"/>
+                            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="100" sortable="false"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ==================== ABOUT ==================== -->
+                <VBox spacing="8" styleClass="stat-card" style="-fx-padding: 20;">
+                    <Label text="ℹ About" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+                    <Separator/>
+                    <Label text="Smart Library Management System (SLMS) v1.0.0"/>
+                    <Label text="Developed for offline library operations." style="-fx-text-fill: #888;"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

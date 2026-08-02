@@ -1,0 +1,4 @@
+com\slms\services\TransactionServiceTest.class
+com\slms\services\MemberServiceTest.class
+com\slms\services\AuthServiceTest.class
+com\slms\services\BookServiceTest.class

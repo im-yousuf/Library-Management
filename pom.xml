@@ -97,7 +97,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.slms.Main</mainClass>
+                                    <mainClass>com.slms.AppLauncher</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

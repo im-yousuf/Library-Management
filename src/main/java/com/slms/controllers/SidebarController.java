@@ -4,8 +4,7 @@ import com.slms.services.AuditService;
 import com.slms.utils.SceneManager;
 import com.slms.utils.Session;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+
 
 public class SidebarController {
 
@@ -29,13 +28,12 @@ public class SidebarController {
     @FXML private void goToReturn()  {
         SceneManager.switchTo("/views/return-book.fxml", "SLMS - Return Book", 1000, 700);
     }
-    @FXML private void goToReports() { notImplemented("Reports"); }
     @FXML private void goToLayout()  {
         SceneManager.switchTo("/views/library-layout.fxml", "SLMS - Library Layout", 1000, 700);
     }
-    @FXML private void goToFines()   { notImplemented("Fine Management"); }
-    @FXML private void goToSettings(){ notImplemented("Settings"); }
-    @FXML private void goToBackup()  { notImplemented("Backup"); }
+    @FXML private void goToSettings(){
+        SceneManager.switchTo("/views/settings.fxml", "SLMS - Settings", 1000, 700);
+    }
 
     @FXML
     private void handleLogout() {
@@ -45,11 +43,5 @@ public class SidebarController {
         }
         Session.logout();
         SceneManager.switchTo("/views/login.fxml", "Smart Library Management System - Login", 900, 600);
-    }
-
-    private void notImplemented(String feature) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, feature + " is coming in a later phase.", ButtonType.OK);
-        alert.setHeaderText("Coming Soon");
-        alert.showAndWait();
     }
 }

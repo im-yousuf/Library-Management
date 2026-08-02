@@ -20,11 +20,8 @@
     <Button text="👥  Members" styleClass="nav-button" maxWidth="Infinity" onAction="#goToMembers"/>
     <Button text="📖  Issue Book" styleClass="nav-button" maxWidth="Infinity" onAction="#goToIssue"/>
     <Button text="🔄  Return Book" styleClass="nav-button" maxWidth="Infinity" onAction="#goToReturn"/>
-    <Button text="📊  Reports" styleClass="nav-button" maxWidth="Infinity" onAction="#goToReports"/>
     <Button text="🏢  Library Layout" styleClass="nav-button" maxWidth="Infinity" onAction="#goToLayout"/>
-    <Button text="💰  Fine" styleClass="nav-button" maxWidth="Infinity" onAction="#goToFines"/>
     <Button text="⚙  Settings" styleClass="nav-button" maxWidth="Infinity" onAction="#goToSettings"/>
-    <Button text="💾  Backup" styleClass="nav-button" maxWidth="Infinity" onAction="#goToBackup"/>
 
     <VBox VBox.vgrow="ALWAYS"/>
     <Button text="⏻  Logout" styleClass="logout-button" maxWidth="Infinity" onAction="#handleLogout"/>

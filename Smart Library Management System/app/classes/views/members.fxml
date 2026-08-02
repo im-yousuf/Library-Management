@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.slms.controllers.MembersController"
+            styleClass="app-root">
+
+    <left>
+        <fx:include source="sidebar.fxml"/>
+    </left>
+
+    <top>
+        <fx:include source="topbar.fxml"/>
+    </top>
+
+    <center>
+        <VBox spacing="16">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Member Management" styleClass="section-title"/>
+                <HBox HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" promptText="Search name, roll, phone..." prefWidth="300"/>
+                <Button text="➕ Add Member" styleClass="primary-button" onAction="#handleAddMember"/>
+            </HBox>
+
+            <TableView fx:id="membersTable" VBox.vgrow="ALWAYS">
+                <placeholder>
+                    <Label text="No members found." styleClass="empty-state-label"/>
+                </placeholder>
+                <columns>
+                    <TableColumn fx:id="photoCol" text="Photo" prefWidth="60"/>
+                    <TableColumn fx:id="nameCol" text="Name" prefWidth="180"/>
+                    <TableColumn fx:id="rollCol" text="Roll Number" prefWidth="120"/>
+                    <TableColumn fx:id="deptCol" text="Dept / Course" prefWidth="150"/>
+                    <TableColumn fx:id="phoneCol" text="Phone" prefWidth="120"/>
+                    <TableColumn fx:id="statusCol" text="Status" prefWidth="90"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="200" sortable="false"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

@@ -23,20 +23,36 @@ public class SceneManager {
         try {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
             Parent root = loader.load();
+
+            boolean isLogin = fxmlPath.contains("login");
+            boolean wasMaximized = primaryStage.isMaximized();
+
             Scene scene = new Scene(root, width, height);
             scene.getStylesheets().add(SceneManager.class.getResource("/css/style.css").toExternalForm());
             primaryStage.setTitle(title);
             primaryStage.setScene(scene);
-            
-            // App Branding Icon
-            try {
-                javafx.scene.image.Image icon = new javafx.scene.image.Image(SceneManager.class.getResourceAsStream("/icons/app_icon.png"));
-                primaryStage.getIcons().add(icon);
-            } catch (Exception e) {
-                // Ignore if icon is missing
+
+            // App Branding Icon (only add once)
+            if (primaryStage.getIcons().isEmpty()) {
+                try {
+                    javafx.scene.image.Image icon = new javafx.scene.image.Image(SceneManager.class.getResourceAsStream("/icons/app_icon.png"));
+                    primaryStage.getIcons().add(icon);
+                } catch (Exception e) {
+                    // Ignore if icon is missing
+                }
             }
-            
-            primaryStage.centerOnScreen();
+
+            if (isLogin) {
+                // Login screen: centered, not maximized
+                primaryStage.setMaximized(false);
+                primaryStage.centerOnScreen();
+            } else {
+                // All other screens: maximized, or preserve previous state
+                if (!wasMaximized) {
+                    primaryStage.setMaximized(true);
+                }
+            }
+
             primaryStage.show();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load FXML: " + fxmlPath, e);

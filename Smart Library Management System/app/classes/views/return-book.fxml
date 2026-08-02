@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.slms.controllers.ReturnBookController"
+            styleClass="app-root">
+
+    <left>
+        <fx:include source="sidebar.fxml"/>
+    </left>
+
+    <top>
+        <fx:include source="topbar.fxml"/>
+    </top>
+
+    <center>
+        <VBox spacing="16">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+            <Label text="Return Book" styleClass="section-title"/>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Select Member:"/>
+                <TextField fx:id="memberSearchField" promptText="Search name, roll..." prefWidth="250"/>
+                <ComboBox fx:id="memberCombo" prefWidth="300" promptText="Select a member"/>
+            </HBox>
+
+            <VBox spacing="10" VBox.vgrow="ALWAYS">
+                <Label text="Currently Issued Books" style="-fx-font-weight: bold;"/>
+                <TableView fx:id="issuedBooksTable" VBox.vgrow="ALWAYS">
+                    <placeholder>
+                        <Label text="No issued books found for this member." styleClass="empty-state-label"/>
+                    </placeholder>
+                    <columns>
+                        <TableColumn fx:id="bookTitleCol" text="Book Title" prefWidth="250"/>
+                        <TableColumn fx:id="issueDateCol" text="Issue Date" prefWidth="120"/>
+                        <TableColumn fx:id="dueDateCol" text="Due Date" prefWidth="120"/>
+                        <TableColumn fx:id="statusCol" text="Status/Days" prefWidth="150"/>
+                        <TableColumn fx:id="actionsCol" text="Action" prefWidth="120" sortable="false"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
