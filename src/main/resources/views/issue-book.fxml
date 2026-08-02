@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.slms.controllers.IssueBookController"
+            styleClass="app-root">
+
+    <left>
+        <fx:include source="sidebar.fxml"/>
+    </left>
+
+    <top>
+        <fx:include source="topbar.fxml"/>
+    </top>
+
+    <center>
+        <VBox spacing="20">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+            <Label text="Issue Book" styleClass="section-title"/>
+            
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
+                <!-- Select Member -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="1. Select Member" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="memberSearchField" promptText="Search member name or roll..." />
+                    <ListView fx:id="memberListView" VBox.vgrow="ALWAYS" prefHeight="150"/>
+                    <Label fx:id="selectedMemberLabel" style="-fx-text-fill: green;"/>
+                </VBox>
+
+                <!-- Select Book -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="2. Select Book" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="bookSearchField" promptText="Search book title or ISBN..." />
+                    <ListView fx:id="bookListView" VBox.vgrow="ALWAYS" prefHeight="150"/>
+                    <Label fx:id="selectedBookLabel" style="-fx-text-fill: green;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Confirmation Area -->
+            <VBox spacing="10" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-color: #e0e0e0; -fx-border-radius: 4;">
+                <Label text="3. Confirm Issue" style="-fx-font-weight: bold;"/>
+                <GridPane hgap="15" vgap="10">
+                    <Label text="Member:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-text-fill: gray;"/>
+                    <Label fx:id="confirmMemberLabel" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Book:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-text-fill: gray;"/>
+                    <Label fx:id="confirmBookLabel" text="-" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Issue Date:" GridPane.rowIndex="0" GridPane.columnIndex="2" style="-fx-text-fill: gray;"/>
+                    <Label fx:id="confirmIssueDateLabel" text="-" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                    <Label text="Due Date:" GridPane.rowIndex="1" GridPane.columnIndex="2" style="-fx-text-fill: gray;"/>
+                    <Label fx:id="confirmDueDateLabel" text="-" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                </GridPane>
+                <HBox alignment="CENTER_RIGHT" spacing="10">
+                    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+                    <Button fx:id="issueButton" text="Issue Book" defaultButton="true" styleClass="primary-button" disable="true" onAction="#handleIssueBook"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

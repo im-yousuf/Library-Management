@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.slms.controllers.MemberDetailController"
+      spacing="16" styleClass="app-root" prefWidth="800" prefHeight="650">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Member Detail" styleClass="section-title"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Label fx:id="fineLabel" style="-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 14px;" visible="false"/>
+        <Button text="✏ Edit Member" onAction="#handleEdit"/>
+        <Button text="Close" onAction="#handleClose"/>
+    </HBox>
+
+    <!-- Info Summary -->
+    <HBox spacing="20" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-color: #e0e0e0; -fx-border-radius: 4;">
+        <ImageView fx:id="photoView" fitWidth="100" fitHeight="130" style="-fx-border-color: #ccc;" preserveRatio="true"/>
+        <GridPane hgap="15" vgap="10" HBox.hgrow="ALWAYS">
+            <Label text="Name:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="nameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            
+            <Label text="Roll Number:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="rollLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Department:" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="deptLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Status:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <Label fx:id="statusLabel" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+            <Label text="Phone:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <Label fx:id="phoneLabel" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+            <Label text="Email:" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+            <Label fx:id="emailLabel" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+            
+            <Label text="Joined:" style="-fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+            <Label fx:id="joinedLabel" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+        </GridPane>
+    </HBox>
+
+    <SplitPane orientation="VERTICAL" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <!-- Current Books -->
+        <VBox spacing="10">
+            <padding><Insets bottom="10"/></padding>
+            <Label text="Current Books (Issued)" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <TableView fx:id="currentBooksTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="curBookCol" text="Book Title" prefWidth="250"/>
+                    <TableColumn fx:id="curIssueCol" text="Issue Date" prefWidth="120"/>
+                    <TableColumn fx:id="curDueCol" text="Due Date" prefWidth="120"/>
+                    <TableColumn fx:id="curStatusCol" text="Status/Days" prefWidth="150"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Borrow History -->
+        <VBox spacing="10">
+            <padding><Insets top="10"/></padding>
+            <Label text="Borrow History" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="histBookCol" text="Book Title" prefWidth="250"/>
+                    <TableColumn fx:id="histIssueCol" text="Issue Date" prefWidth="120"/>
+                    <TableColumn fx:id="histReturnCol" text="Return Date" prefWidth="120"/>
+                    <TableColumn fx:id="histStatusCol" text="Status" prefWidth="100"/>
+                    <TableColumn fx:id="histFineCol" text="Fine Paid/Pending" prefWidth="120"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </SplitPane>
+
+</VBox>

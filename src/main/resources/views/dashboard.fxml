@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.slms.controllers.DashboardController"
+            styleClass="app-root">
+
+    <!-- SIDEBAR -->
+    <left>
+        <fx:include source="sidebar.fxml"/>
+    </left>
+
+    <!-- TOP BAR -->
+    <top>
+        <fx:include source="topbar.fxml"/>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="main-scroll">
+            <VBox spacing="20">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+                <Label text="Dashboard Overview" styleClass="section-title"/>
+
+                <GridPane hgap="16" vgap="16">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33.3"/>
+                        <ColumnConstraints percentWidth="33.3"/>
+                        <ColumnConstraints percentWidth="33.3"/>
+                    </columnConstraints>
+
+                    <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                        <Label text="Total Books" styleClass="stat-label"/>
+                        <Label fx:id="totalBooksValue" text="0" styleClass="stat-value"/>
+                    </VBox>
+
+                    <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                        <Label text="Books Issued" styleClass="stat-label"/>
+                        <Label fx:id="booksIssuedValue" text="0" styleClass="stat-value"/>
+                    </VBox>
+
+                    <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                        <Label text="Available Books" styleClass="stat-label"/>
+                        <Label fx:id="availableBooksValue" text="0" styleClass="stat-value"/>
+                    </VBox>
+
+                    <VBox styleClass="stat-card" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <Label text="Members" styleClass="stat-label"/>
+                        <Label fx:id="totalMembersValue" text="0" styleClass="stat-value"/>
+                    </VBox>
+
+                    <VBox styleClass="stat-card stat-card-warning" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                        <Label text="Overdue Books" styleClass="stat-label"/>
+                        <Label fx:id="overdueBooksValue" text="0" styleClass="stat-value"/>
+                    </VBox>
+
+                    <VBox styleClass="stat-card stat-card-danger" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                        <Label text="Lost Books" styleClass="stat-label"/>
+                        <Label fx:id="lostBooksValue" text="0" styleClass="stat-value"/>
+                    </VBox>
+                </GridPane>
+
+                <Label text="Recent Transactions, charts and quick search arrive in later phases." styleClass="hint-label"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
