@@ -16,6 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import com.slms.services.ExcelService;
+import java.io.File;
+import javafx.stage.FileChooser;
 import java.util.List;
 import java.util.Optional;
 
@@ -110,6 +113,55 @@ public class BooksController {
     @FXML
     private void handleAddBook() {
         openBookForm(null);
+    }
+
+    @FXML
+    private void handleImportBooks() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import Books from Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        File file = fileChooser.showOpenDialog(booksTable.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                List<Book> importedBooks = ExcelService.importBooks(file);
+                int added = 0;
+                for (Book b : importedBooks) {
+                    if (bookService.addBook(b)) {
+                        added++;
+                    }
+                }
+                AuditService.log(Session.getCurrentUser().getUserId(), "IMPORT_BOOKS", "Imported " + added + " books from " + file.getName());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Successfully imported " + added + " books.", ButtonType.OK);
+                alert.showAndWait();
+                loadBooks(searchField.getText());
+            } catch (Exception e) {
+                e.printStackTrace();
+                showError("Failed to import books: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void handleExportBooks() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Books to Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        fileChooser.setInitialFileName("BooksExport.xlsx");
+        File file = fileChooser.showSaveDialog(booksTable.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                List<Book> currentBooks = booksList;
+                ExcelService.exportBooks(currentBooks, file);
+                AuditService.log(Session.getCurrentUser().getUserId(), "EXPORT_BOOKS", "Exported books to " + file.getName());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Successfully exported books to Excel.", ButtonType.OK);
+                alert.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+                showError("Failed to export books: " + e.getMessage());
+            }
+        }
     }
 
     private void openBookForm(Book book) {

@@ -25,6 +25,8 @@
                 <Label text="Book Management" styleClass="section-title"/>
                 <HBox HBox.hgrow="ALWAYS"/>
                 <TextField fx:id="searchField" promptText="Search title, author, ISBN, category..." prefWidth="300"/>
+                <Button text="📥 Import" styleClass="secondary-button" onAction="#handleImportBooks"/>
+                <Button text="📤 Export" styleClass="secondary-button" onAction="#handleExportBooks"/>
                 <Button text="➕ Add Book" styleClass="primary-button" onAction="#handleAddBook"/>
             </HBox>
 

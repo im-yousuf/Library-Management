@@ -25,17 +25,14 @@ public class SceneManager {
             Parent root = loader.load();
 
             boolean isLogin = fxmlPath.contains("login");
-            boolean wasMaximized = primaryStage.isMaximized();
 
-            Scene scene = new Scene(root, width, height);
-            scene.getStylesheets().add(SceneManager.class.getResource("/css/style.css").toExternalForm());
             primaryStage.setTitle(title);
-            primaryStage.setScene(scene);
 
             // App Branding Icon (only add once)
             if (primaryStage.getIcons().isEmpty()) {
                 try {
-                    javafx.scene.image.Image icon = new javafx.scene.image.Image(SceneManager.class.getResourceAsStream("/icons/app_icon.png"));
+                    javafx.scene.image.Image icon = new javafx.scene.image.Image(
+                            SceneManager.class.getResourceAsStream("/icons/app_icon.png"));
                     primaryStage.getIcons().add(icon);
                 } catch (Exception e) {
                     // Ignore if icon is missing
@@ -43,12 +40,32 @@ public class SceneManager {
             }
 
             if (isLogin) {
-                // Login screen: centered, not maximized
+                // Login screen: use a fresh scene at fixed size, centered
+                Scene loginScene = new Scene(root, width, height);
+                loginScene.getStylesheets().add(
+                        SceneManager.class.getResource("/css/style.css").toExternalForm());
                 primaryStage.setMaximized(false);
+                primaryStage.setScene(loginScene);
+                primaryStage.setWidth(width);
+                primaryStage.setHeight(height);
                 primaryStage.centerOnScreen();
             } else {
-                // All other screens: maximized, or preserve previous state
-                if (!wasMaximized) {
+                // For all other screens: reuse the existing Scene and just
+                // swap the root. This keeps the window completely still —
+                // no size change, no maximize toggle, no flicker.
+                Scene existingScene = primaryStage.getScene();
+                if (existingScene == null) {
+                    // First launch (coming from login) — create the scene once
+                    Scene newScene = new Scene(root);
+                    newScene.getStylesheets().add(
+                            SceneManager.class.getResource("/css/style.css").toExternalForm());
+                    primaryStage.setScene(newScene);
+                } else {
+                    // Subsequent navigations — just replace the root node
+                    existingScene.setRoot(root);
+                }
+                // Ensure the window is maximized (harmless if already maximized)
+                if (!primaryStage.isMaximized()) {
                     primaryStage.setMaximized(true);
                 }
             }
@@ -58,6 +75,7 @@ public class SceneManager {
             throw new RuntimeException("Failed to load FXML: " + fxmlPath, e);
         }
     }
+
 
     public static FXMLLoader showModal(String fxmlPath, String title) {
         try {
