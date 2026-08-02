@@ -120,6 +120,7 @@ public class DatabaseManager {
                     purchase_date TEXT,
                     price REAL DEFAULT 0,
                     quantity INTEGER NOT NULL DEFAULT 1,
+                    total_copies INTEGER NOT NULL DEFAULT 1,
                     available_copies INTEGER NOT NULL DEFAULT 1,
                     shelf_id INTEGER,
                     position TEXT,

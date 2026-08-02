@@ -95,6 +95,16 @@ public class BooksController {
         List<Book> list = bookService.searchBooks(query);
         booksList.setAll(list);
         booksTable.setItems(booksList);
+        // Auto-select the most recently added book (highest ID) if present
+        if (!booksList.isEmpty()) {
+            Book newest = booksList.stream()
+                    .max((b1, b2) -> Integer.compare(b1.getBookId(), b2.getBookId()))
+                    .orElse(null);
+            if (newest != null) {
+                booksTable.getSelectionModel().select(newest);
+                booksTable.scrollTo(newest);
+            }
+        }
     }
 
     @FXML
